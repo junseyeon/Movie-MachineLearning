@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+<h1>회원가입</h1>
+<!-- id, pw, 생년월일, -->
+<form method="POST">
+    {% csrf_token %}
+    <p>
+        <input name ="id" placeholder="아이디" required />
+    </p>
+    <p>
+        <input name="pw" placeholder="비밀번호" type="password" required />
+    </p>
+    <p>
+        <input type="submit" value="로그인"/>
+    </p>
+</form>
+</body>
+</html>
