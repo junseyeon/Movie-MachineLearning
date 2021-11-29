@@ -5,12 +5,24 @@
     <title>회원가입 화면</title>
 </head>
 <body>
- # 임시로
 <div> {{ msg }}</div>
+<div> 좋아하는 영화를 입력해주세요 </div>
+<!--
 <input
     type ="button"
     value = "로그인 화면으로"
     onclick="location.replace('/')"
     />
+-->
+<!-- 나중에 csv에 있는 영화 목록 보여줘서 선택할수 있게 -->
+<form method="POST">
+    {% csrf_token %}
+    <p>
+        <input name ="id" placeholder="좋아하는 영화" required />
+    </p>
+    <p>
+        <input type="submit" value="영화 추천 보기"/>
+    </p>
+</form>
 </body>
 </html>

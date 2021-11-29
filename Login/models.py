@@ -1,4 +1,3 @@
-
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -17,8 +16,7 @@ class UserInfo(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.id
+        return self.id + self.pw
 
-    # class Meta:
-    #     db_table = "consumer"
-
+    class Meta:
+        db_table = "userinfo"
