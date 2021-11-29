@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <title>Login화면</title>
 </head>
 <body>
@@ -9,8 +11,9 @@
 <input
     type ="button"
     value = "회원가입"
-    onclick="location.replace('/signup.html')"
-    />
+    onclick="location.replace('/signup')"
+    /> <!-- 뒤에 .html 붙이면 안되 -->
+
 <form method="POST">
     {% csrf_token %}
     <p>
