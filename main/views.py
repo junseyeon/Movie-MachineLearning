@@ -5,21 +5,60 @@ import csv
 import pandas as pd
 from .models import Movie
 
-
 # def index(request):
 #     return render(request, 'main/index.html')
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+import difflib
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import linear_kernel
+
+
 def result(request, u_id, demo):
-    print("넘어온 : " + u_id + " " + demo)
+    print("넘어온 : " + u_id + " " + demo)       # ISSUE: 띄어쓰기 값은 에러
 
     item = Movie.objects.all().values()
     df = pd.DataFrame(item)
-    print(df.info())
-    mdict = {
-        "df": df.to_html()
-    }
-    return render(request, 'main/result.html', context=mdict)
+    print(type(df))
+    df_combined = df['title'] + ' ' + df['description'] + ' ' + df['director'] + ' ' + df['cast'] + ' ' + df[
+        'country'] + ' ' + df['rating'] + ' ' + df['listed_in']
 
+    vectorizer = TfidfVectorizer(stop_words='english')
+    df_vector = vectorizer.fit_transform(df_combined)
+    print(df_vector)
+
+    # similarity = cosine_similarity(df_vector)
+    similarity_des = linear_kernel(df_vector, df_vector)
+
+    indices = pd.Series(df.index, index=df['title']).drop_duplicates()
+    print(indices)
+
+    def get_recommendations(title, similarity_des=similarity_des):
+        # Get the index of the movie that matches the title
+        idx = indices[title]
+
+        # Get the pairwsie similarity scores of all movies with that movie
+        sim_scores = list(enumerate(similarity_des[idx]))
+
+        # Sort the movies based on the similarity scores
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+        # Get the scores of the 10 most similar movies
+        sim_scores = sim_scores[1:11]
+
+        # Get the movie indices
+        movie_indices = [i[0] for i in sim_scores]
+
+        # Return the top 10 most similar movies
+        return df['title'].iloc[movie_indices]
+
+    gc = get_recommendations("Kota Factory")           # 일단 값 넣어서 테스트
+    print( type(gc))
+    mdict = {
+
+    }
+    # return render(request, 'main/result.html', context=mdict)
+    return HttpResponse("완료")
 
 # csv -> sqlite 데이터 넣는 2가지 방법
 # sqlite 사용 python manage.py dbshell를 통해서 db에 넣기/ 2.django로 경로 만들어서 아래처럼 파일 읽어서 데이터 넣기
