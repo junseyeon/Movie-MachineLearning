@@ -7,15 +7,9 @@
 <body>
 <div> {{ msg }}</div>
 <div> 좋아하는 영화를 입력해주세요 </div>
-<!--
-<input
-    type ="button"
-    value = "로그인 화면으로"
-    onclick="location.replace('/')"
-    />
--->
-<!-- 나중에 csv에 있는 영화 목록 보여줘서 선택할수 있게 -->
+
 <form method="POST">
+    # 안 쓰는 html
     {% csrf_token %}
     <p>
         <input name ="id" placeholder="좋아하는 영화" required />

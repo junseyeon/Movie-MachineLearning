@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render
 from django.views.generic import View
 from .models import UserInfo
+from django.urls import reverse
 
 
 class Login(View):
@@ -8,29 +10,43 @@ class Login(View):
         return render(request, 'Login/signin.html')
 
     def post(self, request):
-        id = request.POST.get("id")
+        u_id = request.POST.get("id")
         pw = request.POST.get("pw")
+        demo = request.POST.get("demo")
         msg = False
+
         infos = UserInfo.objects.all()
         for info in infos:
-            if info.id == id and info.pw == pw:
-                name = info.id
+            if info.id == u_id and info.pw == pw:
                 msg = True
-        msg = name+"님"
+            else:
+                print('로그인 정보 없음')         # 나중에 alert_message framework로 추가
 
-        context = {
-            'msg' : msg
-        }
+        if msg:
+            return HttpResponseRedirect(reverse('main:result', args=(u_id, demo, )))
+        else:
+            print("로그인 정보 없음...2 ")
 
-        return render(request, 'main/index.html', context)
+        # context = {
+        #     'id': id,
+        #     'demo': demo
+        # }  # 넘기는건 딕셔너리로 한번에 하고 받는 페이지에서 key별로 출력
+
+        # 이렇게 render하면 main/views.py로 안가지고 바로 index.html로 넘어가져서 문제.
+        # return render(request, 'Login/signin.html', context)      #uri 뒤에 name붙여서 가야 될 듯 (context필요 x)
+        # return redirect('main/')
 
 
 # 지금은 기능 구현 안함 admin에서 회원가입
 class Signup(View):
+
     def get(self, request):
         return render(request, 'Login/signup.html')
 
     def post(self, request):
         id = request.POST.get("id")
         pw = request.POST.get("pw")
+
+        # 나중에 데이터 삽입 추가
+        # UserInfo.objects.bulk_create(list)
 

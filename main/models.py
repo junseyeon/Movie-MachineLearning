@@ -15,7 +15,7 @@ class Movie(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return str(self.show_id) + self.title
+        return str(self.show_id) + ". title : " + self.title
 
     class Meta:
         db_table ='movie'

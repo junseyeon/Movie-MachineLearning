@@ -2,19 +2,30 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 import csv
-
+import pandas as pd
 from .models import Movie
 
-def index(request):
-    return render(request, 'index.html')
 
+# def index(request):
+#     return render(request, 'main/index.html')
+
+def result(request, u_id, demo):
+    print("넘어온 : " + u_id + " " + demo)
+
+    item = Movie.objects.all().values()
+    df = pd.DataFrame(item)
+    print(df.info())
+    mdict = {
+        "df": df.to_html()
+    }
+    return render(request, 'main/result.html', context=mdict)
 
 
 # csv -> sqlite 데이터 넣는 2가지 방법
-# sqlite 사용 python manage.py dbshell하면 db넣어짐/ django로 경로 만들어서 데이터 넣기
+# sqlite 사용 python manage.py dbshell를 통해서 db에 넣기/ 2.django로 경로 만들어서 아래처럼 파일 읽어서 데이터 넣기
 def csvToModel(request):
 
-    path = "renew_nefilx_titles.csv"
+    path = "../renew_nefilx_titles.csv"
     file = open(path, 'rt', encoding="UTF8")
     reader = csv.reader(file)
     print("----", reader)    # 파일 읽어 왔는지 확인

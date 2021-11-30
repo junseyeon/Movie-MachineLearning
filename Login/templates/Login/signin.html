@@ -8,11 +8,6 @@
 </head>
 <body>
 <p>로그인</p>
-<input
-    type ="button"
-    value = "회원가입"
-    onclick="location.replace('/signup')"
-    /> <!-- 뒤에 .html 붙이면 안됨 -->
 
 <form method="POST">
     {% csrf_token %}
@@ -23,8 +18,17 @@
         <input name="pw" placeholder="비밀번호" type="password" required />
     </p>
     <p>
-        <input type="submit" value="로그인"/>
+        <input name ="demo" placeholder="좋아하는 영화" required />
     </p>
+    <p>
+        <input type="submit" value="로그인"/>
+        <input
+            type ="button"
+            value = "회원가입"
+            onclick="location.replace('/signup')"
+        /> <!-- 뒤에 .html 붙이면 안됨 / view로 통과함 -->
+    </p>
+
 </form>
 </body>
 </html>

@@ -16,7 +16,7 @@ class UserInfo(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.id + self.pw
+        return 'id:' + self.id + ' pw:' + self.pw
 
     class Meta:
         db_table = "userinfo"
