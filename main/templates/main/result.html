@@ -7,16 +7,28 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
   <title>영화 분석 결과</title>
 </head>
+<style>
+    mark{
+            font-family: 'Lobster';
+    }
+    table{
+        font-family: 'Karla';
+    }
+</style>
 <body>
 
 {#    {{ df | safe }}#}
 
-<div class="container">
-  <h2 class="text-center"><u>20 - Startups Table</u></h2><br>
-  <table class="table table-dark table-striped">  <!-- https://getbootstrap.com/docs/4.0/content/tables/ 디자인 참고해서 선택하기 -->
-    <thead>
+<div class=".container-fluid"> <br><br>
+
+    <h2 class="text-center"><mark>{{ u_id }}. Recommend Movie TOP10 </mark></h2><br><br>
+  <table class="table table-hover">  <!--table-bordered or table-striped 고민 --> <!-- https://getbootstrap.com/docs/4.0/content/tables/ 참고 -->
+      <caption> > using kaggle data, machine_learning </caption>
+      <thead class="table-secondary">
       <tr>
         <th>title</th>
         <th>director</th>
