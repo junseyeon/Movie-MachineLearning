@@ -93,27 +93,30 @@ def manager(request):
         plt.xlabel("Type")
         plt.title(f"Number of {col}", fontweight='bold', fontsize=15)
 
-        plt.savefig('count_plot')
+        plt.savefig('plot_png/count_plot')
 
-
-    #     sns.set_style('darkgrid')
-    #     plt.figure(figsize=(12, 10))
-    #     sns.countplot(y=df['country'],
-    #                   data=df,
-    #                   order=df['country'].value_counts().index[0:10],
-    #                   palette="Set1")
-    #     plt.xlabel("Numberf of movie")
-    #     plt.title("Number of movie each countryr", fontweight='bold', fontsize=15)
+    def country_plot():
+        sns.set_style('darkgrid')
+        plt.figure(figsize=(12, 10))
+        sns.countplot(y=df['country'],
+                      data=df,
+                      order=df['country'].value_counts().index[0:10],
+                      palette="Set1")
+        plt.xlabel("Numberf of movie")
+        plt.title("Number of movie each countryr", fontweight='bold', fontsize=15)
+        plt.savefig('plot_png/country_plot')
 
     def dist_plot(df, col):
         plt.figure(figsize = (12, 8))
         sns.distplot(df[col], color = "b")
         plt.title(f"Distribution of  {col} ", fontweight = 'bold', fontsize = 15)
+        plt.savefig('plot_png/dist_plot')
 
     item = Movie.objects.all().values()
     df = pd.DataFrame(item)
     count_plot(df, "type")
     count_plot(df, "rating")
+    country_plot()
     dist_plot(df, "release_year")
 
     return render(request, 'main/manager.html')
