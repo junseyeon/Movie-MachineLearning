@@ -7,9 +7,9 @@ urlpatterns = [
      # 아래건 /main으로 들어갔을 때 바로 뜨는 경로
      # path('', views.index, name="index"),  # 좋아하는 영화만 따로 값을 받는 경로였음.
 
-     path('<slug:u_id>/<slug:demo>/', views.result, name="result"),
+     path('<slug:u_id>/<slug:nameid>/', views.result, name="result"),
      # path('', views.result, name="result"),
-      path('csv/', views.csvToModel, name="csv"),
+     path('csv/', views.csvToModel, name="csv"),
 
     # path('index/<int:id>', views.index, name="analysis"),
 ]

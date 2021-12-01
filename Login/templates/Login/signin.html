@@ -2,33 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <title>Login화면</title>
-</head>
-<body>
-<p>로그인</p>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <link href="{% load static %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
+    <title>Login화면</title>
+
+    <style>
+
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+</head>
+<body class="text-center">
+<main class="form-signin">
 <form method="POST">
     {% csrf_token %}
-    <p>
-        <input name ="id" placeholder="아이디" required />
-    </p>
-    <p>
-        <input name="pw" placeholder="비밀번호" type="password" required />
-    </p>
-    <p>
-        <input name ="demo" placeholder="좋아하는 영화" required />
-    </p>
-    <p>
-        <input type="submit" value="로그인"/>
-        <input
-            type ="button"
-            value = "회원가입"
-            onclick="location.replace('/signup')"
-        /> <!-- 뒤에 .html 붙이면 안됨 / view로 통과함 -->
-    </p>
+     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-</form>
+    <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" placeholder="ID" name="id" required>
+      <label for="floatingInput">Enter ID</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="pw" required>
+      <label for="floatingPassword">Enter Password</label>
+    </div>
+
+     <div class="form-floating">
+      <input type="text" class="form-control" id="floatingPassword" placeholder="Choose Movie" name="name" required>
+      <label for="floatingPassword">Enter Moive </label>
+    </div>
+
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+
+{#    <p>#}
+{#        <input name ="id" placeholder="아이디" required />#}
+{#    </p>#}
+{#    <p>#}
+{#        <input name="pw" placeholder="비밀번호" type="password" required />#}
+{#    </p>#}
+{#    <p>#}
+{#        <input name ="name" placeholder="좋아하는 영화" type="text" required />#}
+{#    </p>#}
+
+{#    <p>#}
+{#        <input type="submit" value="로그인"/>#}
+{#        <input#}
+{#            type ="button"#}
+{#            value = "회원가입"#}
+{#            onclick="location.replace('/signup')"#}
+{#        /> <!-- 뒤에 .html 붙이면 안됨 / view로 통과함 -->#}
+{#    </p>#}
+
+    </form>
+</main>
 </body>
 </html>
+<script>
+</script>

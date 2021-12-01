@@ -2,9 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>영화 분석 결과</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <title>영화 분석 결과</title>
 </head>
 <body>
-    {{ df | safe }}
+
+{#    {{ df | safe }}#}
+
+<div class="container">
+  <h2 class="text-center"><u>20 - Startups Table</u></h2><br>
+  <table class="table table-dark table-striped">  <!-- https://getbootstrap.com/docs/4.0/content/tables/ 디자인 참고해서 선택하기 -->
+    <thead>
+      <tr>
+        <th>title</th>
+        <th>director</th>
+        <th>cast</th>
+        <th>country</th>
+        <th>release_year</th>
+        <th>rating</th>
+        <th>duration</th>
+        <th>listed_in</th>
+        <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- jinja2 Technique -->
+    {% if recommended %}
+    {% for i in recommended %}
+      <tr>
+        <td>{{i.title}}</td>
+        <td>{{i.director}}</td>
+        <td>{{i.cast}}</td>
+        <td>{{i.country}}</td>
+        <td>{{i.release_year}}</td>
+        <td>{{i.rating}}</td>
+        <td>{{i.duration}}</td>
+        <td>{{i.listed_in}}</td>
+        <td>{{i.description}}</td>
+      </tr>
+    {% endfor %}
+    {% endif %}
+    </tbody>
+  </table>
+</div>
+
 </body>
 </html>

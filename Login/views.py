@@ -2,8 +2,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 from .models import UserInfo
+from main.models import Movie
 from django.urls import reverse
-
+from datetime import datetime
 
 class Login(View):
     def get(self, request):
@@ -12,8 +13,11 @@ class Login(View):
     def post(self, request):
         u_id = request.POST.get("id")
         pw = request.POST.get("pw")
-        demo = request.POST.get("demo")
+        name = request.POST.get("name")
         msg = False
+
+        row = Movie.objects.get(title=name)
+        nameid = row.show_id
 
         infos = UserInfo.objects.all()
         for info in infos:
@@ -23,7 +27,7 @@ class Login(View):
                 print('로그인 정보 없음')         # 나중에 alert_message framework로 추가
 
         if msg:
-            return HttpResponseRedirect(reverse('main:result', args=(u_id, demo, )))
+            return HttpResponseRedirect(reverse('main:result', args=(u_id, nameid, )))
         else:
             print("로그인 정보 없음...2 ")
 
@@ -47,6 +51,5 @@ class Signup(View):
         id = request.POST.get("id")
         pw = request.POST.get("pw")
 
-        # 나중에 데이터 삽입 추가
-        # UserInfo.objects.bulk_create(list)
-
+        #fb = UserInfo(id= id, pw= pw, birth_date=bd, likeGenre= lg, likeM=lm, hateM=hm, country= country, created_date= datetime.now())
+        #fb.save()
