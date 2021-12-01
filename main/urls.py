@@ -9,6 +9,9 @@ urlpatterns = [
 
      path('<slug:u_id>/<slug:nameid>/', views.result, name="result"),
      # path('', views.result, name="result"),
+
+     path('admin/', views.administrator, name="admin"),
+
      path('csv/', views.csvToModel, name="csv"),
 
     # path('index/<int:id>', views.index, name="analysis"),

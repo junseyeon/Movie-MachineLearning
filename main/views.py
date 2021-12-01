@@ -15,9 +15,9 @@ from .models import Movie
 
 import json
 
-def result(request, u_id, nameid):
 
-    print("넘어온 : " + u_id + " " + nameid)       # ISSUE: 띄어쓰기 값은 에러
+def result(request, u_id, nameid):
+    print("넘어온 : " + u_id + " " + nameid)  # ISSUE: 띄어쓰기 값은 에러
 
     item = Movie.objects.all().values()
     df = pd.DataFrame(item)
@@ -75,29 +75,71 @@ def result(request, u_id, nameid):
 def result_using(request):
     return HttpResponse("응용 버전")
 
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+def administrator(request):
+# Plot된 그래프를 그림으로 저장 -> 저장된 그림을 웹에 띄움
+    def count_plot(df, col):      # type / Movie or TV Show 비율 그래프
+        sns.set_style("darkgrid")
+        plt.figure(figsize=(12, 7))
+        sns.countplot(x=col,
+                      data=df,
+                      order=df[col].value_counts().to_frame().index)
+        plt.ylabel(f"Count of type {col}")
+        plt.xlabel("Type")
+        plt.title(f"Number of {col}", fontweight='bold', fontsize=15)
+
+        plt.savefig('count_plot')
+
+
+    #     sns.set_style('darkgrid')
+    #     plt.figure(figsize=(12, 10))
+    #     sns.countplot(y=df['country'],
+    #                   data=df,
+    #                   order=df['country'].value_counts().index[0:10],
+    #                   palette="Set1")
+    #     plt.xlabel("Numberf of movie")
+    #     plt.title("Number of movie each countryr", fontweight='bold', fontsize=15)
+
+    def dist_plot(df, col):
+        plt.figure(figsize = (12, 8))
+        sns.distplot(df[col], color = "b")
+        plt.title(f"Distribution of  {col} ", fontweight = 'bold', fontsize = 15)
+
+    item = Movie.objects.all().values()
+    df = pd.DataFrame(item)
+    count_plot(df, "type")
+    count_plot(df, "rating")
+    dist_plot(df, "release_year")
+
+    return HttpResponse("관리자가 볼 수 있는 표 그리기")
+
+
 # csv -> sqlite 데이터 넣는 2가지 방법
 # sqlite 사용 python manage.py dbshell를 통해서 db에 넣기/ 2.django로 경로 만들어서 아래처럼 파일 읽어서 데이터 넣기
 def csvToModel(request):
-
     path = "../renew_nefilx_titles.csv"
     file = open(path, 'rt', encoding="UTF8")
     reader = csv.reader(file)
-    print("----", reader)    # 파일 읽어 왔는지 확인
+    print("----", reader)  # 파일 읽어 왔는지 확인
 
     list = []
     for row in reader:
         print(row)
         list.append(Movie(show_id=row[0],
-                               type =row[1],
-                               title=row[2],
-                               director=row[3],
-                               cast=row[4],
-                               country=row[5],
-                               release_year=row[6],
-                               rating=row[7],
-                               duration=row[8],
-                               listed_in=row[9],
-                               description=row[10]))
+                          type=row[1],
+                          title=row[2],
+                          director=row[3],
+                          cast=row[4],
+                          country=row[5],
+                          release_year=row[6],
+                          rating=row[7],
+                          duration=row[8],
+                          listed_in=row[9],
+                          description=row[10]))
     Movie.objects.bulk_create(list)
 
     # path = "renew_nefilx_titles.csv"
