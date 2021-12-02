@@ -8,7 +8,13 @@ from datetime import datetime
 
 class Login(View):
     def get(self, request):
-        return render(request, 'Login/signin.html')
+
+        # db에 있는 title값 만 가져오기
+        titles = Movie.objects.values('title')
+        context = {
+            "titles": titles
+        }
+        return render(request, 'Login/signin.html', context=context)
 
     def post(self, request):
         u_id = request.POST.get("id")
@@ -24,7 +30,7 @@ class Login(View):
             if info.id == u_id and info.pw == pw:
                 msg = True
             else:
-                print('로그인 정보 없음')         # 나중에 alert_message framework로 추가
+                print('로그인 정보 없음')         # 나중에 alert_message 추가
 
         if msg:
             return HttpResponseRedirect(reverse('main:result', args=(u_id, nameid, )))

@@ -10,6 +10,7 @@ from .models import Movie
 # def index(request):
 #     return render(request, 'main/index.html')
 
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 import difflib
 from sklearn.metrics.pairwise import cosine_similarity
@@ -19,7 +20,7 @@ import json
 
 
 def result(request, u_id, nameid):
-    # print("넘어온 : " + u_id + " " + nameid)  # ISSUE: 띄어쓰기 값은 에러
+     # print("넘어온 : " + u_id + " " + nameid)  # ISSUE: 띄어쓰기 값은 에러
 
     item = Movie.objects.all().values()
     df = pd.DataFrame(item)
@@ -69,8 +70,8 @@ def result(request, u_id, nameid):
                'u_id': u_id}
 
     return render(request, 'main/result.html', context=context)
-
     # return HttpResponse("완료")
+
 
 
 def result_using(request):

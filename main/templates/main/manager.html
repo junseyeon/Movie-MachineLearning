@@ -2,11 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>관리자 페이지</title>
+    {## 관리자는 페이지 로그인 하면 이 페이지로 넘어옴#}
+    {## csv -> db 반영되는 views 가져오기 [버튼]으로 생성#}
+    {## 데이터 분석된 결과 (차트) 보는 페이지#}
 </head>
 <body>
- # 관리자는 페이지 로그인 하면 이 페이지로 넘어옴
- # csv -> db 반영되는 views 가져오기 [버튼]으로 생성
- # 데이터 분석된 결과 (차트) 보는 페이지
+<p>
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#a" role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        count_plot
+    </a>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#b" aria-expanded="false"
+            aria-controls="collapseExample">
+        country_plot
+    </button>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#c" aria-expanded="false"
+            aria-controls="collapseExample">
+        dist_plot
+    </button>
+</p>
+
+<div class="collapse" id="a">
+    <div class="card card-body">
+        aaaaaaaaaa
+        <img src='plot_png/count_plot.png'>
+    </div>
+</div>
+<div class="collapse" id="b">
+    <div class="card card-body">
+        bbbbbbbbb
+        <img src='plot_png/country_plot.png'>
+    </div>
+</div>
+<div class="collapse" id="c">
+    <div class="card card-body">
+        ccccccccccc
+        <img src='plot_png/dist_plot.png'>
+    </div>
+</div>
+
 </body>
 </html>

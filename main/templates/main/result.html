@@ -3,64 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
 
-  <title>영화 분석 결과</title>
+    <title>사용자 맞춤 영화 추천</title>
 </head>
 <style>
-    mark{
-            font-family: 'Lobster';
+    mark {
+        font-family: 'Lobster';
     }
-    table{
+
+    table {
         font-family: 'Karla';
     }
 </style>
 <body>
 
-{#    {{ df | safe }}#}
+{# <div class=".container-fluid"> <br><br>#}
+<h2 class="text-center">
+    <mark>{{ u_id }}. Recommend Movie TOP10</mark>
+</h2>
+<br><br>
+{#  <table class="table table-hover">  <!--table-bordered or table-striped 고민 --> <!-- https://getbootstrap.com/docs/4.0/content/tables/ 참고 -->#}
+{#      <caption> > using kaggle data, machine_learning </caption>#}
+{#      <thead class="table-secondary">#}
+{#      <tr>#}
+{#        <th>title</th>#}
+{#        <th>director</th>#}
+{#        <th>cast</th>#}
+{#        <th>country</th>#}
+{#        <th>release_year</th>#}
+{#        <th>rating</th>#}
+{#        <th>duration</th>#}
+{#        <th>listed_in</th>#}
+{#        <th>description</th>#}
+{#      </tr>#}
+{#    </thead>#}
+{#    <tbody>#}
+{#    <!-- jinja2 Technique -->#}
+{#    {% if recommended %}#}
+{#    {% for i in recommended %}#}
+{#      <tr>#}
+{#        <td>{{i.title}}</td>#}
+{#        <td>{{i.director}}</td>#}
+{#        <td>{{i.cast}}</td>#}
+{#        <td>{{i.country}}</td>#}
+{#        <td>{{i.release_year}}</td>#}
+{#        <td>{{i.rating}}</td>#}
+{#        <td>{{i.duration}}</td>#}
+{#        <td>{{i.listed_in}}</td>#}
+{#        <td>{{i.description}}</td>#}
+{#      </tr>#}
+{#    {% endfor %}#}
+{#    {% endif %}#}
+{#    </tbody>#}
+{#  </table>#}
+{#</div>#}
 
-<div class=".container-fluid"> <br><br>
-
-    <h2 class="text-center"><mark>{{ u_id }}. Recommend Movie TOP10 </mark></h2><br><br>
-  <table class="table table-hover">  <!--table-bordered or table-striped 고민 --> <!-- https://getbootstrap.com/docs/4.0/content/tables/ 참고 -->
-      <caption> > using kaggle data, machine_learning </caption>
-      <thead class="table-secondary">
-      <tr>
-        <th>title</th>
-        <th>director</th>
-        <th>cast</th>
-        <th>country</th>
-        <th>release_year</th>
-        <th>rating</th>
-        <th>duration</th>
-        <th>listed_in</th>
-        <th>description</th>
-      </tr>
-    </thead>
-    <tbody>
-    <!-- jinja2 Technique -->
+<div class="row row-cols-1 row-cols-md-2 g-4">
     {% if recommended %}
-    {% for i in recommended %}
-      <tr>
-        <td>{{i.title}}</td>
-        <td>{{i.director}}</td>
-        <td>{{i.cast}}</td>
-        <td>{{i.country}}</td>
-        <td>{{i.release_year}}</td>
-        <td>{{i.rating}}</td>
-        <td>{{i.duration}}</td>
-        <td>{{i.listed_in}}</td>
-        <td>{{i.description}}</td>
-      </tr>
-    {% endfor %}
-    {% endif %}
-    </tbody>
-  </table>
-</div>
+        {% for i in recommended %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ i.type }} | {{ i.duration }}</h6>
+                        <p class="card-text">{{ i.description }}</p>
+                        <p class="card-text"><small class="text-muted">{{ i.country }}, {{ i.release_year }}</small></p>
+                        <button type="button" class="btn btn-sm btn-outline-info rounded-pill" id="btn_toggle "> 자세히 보기</button>
+                        <div id="Toggle" style="display: none"> 감독 : {{ i.director }} <br> 등장인물 : <br> {{ i.cast }} <br>
+                            장르 : <br> {{ i.listed_in }} <br> 등급 : {{ i.rating }}</div>
 
+                        <!-- 시간 되면 좋아한다고 선택한 것 db에 넣고 (db에 넣을 때 이미 있는 건지 확인 후) 이 페이지 실행 할 때 반영하기 -->
+                        {#        <button type="button" class="btn btn-primary btn-sm"> LIKE </button>#}
+                        {#        <button type="button" class="btn btn-secondary btn-sm"> Hate </button>#}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
 </body>
+<script>
+    $(function () {
+        $("#btn_toggle").click(function () {
+            $("#Toggle").toggle();
+        });
+    });
+</script>
 </html>

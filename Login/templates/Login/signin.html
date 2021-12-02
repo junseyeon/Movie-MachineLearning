@@ -33,39 +33,33 @@
 <main class="form-signin">
 <form method="POST">
     {% csrf_token %}
-     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+     <h1 class="h3 mb-3 fw-normal">이거 어때? 아님 말고. </h1>
 
     <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" placeholder="ID" name="id" required>
+      <input type="text" class="form-control" id="floatingInput" name="id" required>
       <label for="floatingInput">Enter ID</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="pw" required>
+      <input type="password" class="form-control" id="floatingPassword" name="pw" required>
       <label for="floatingPassword">Enter Password</label>
     </div>
 
      <div class="form-floating">
-      <input type="text" class="form-control" id="floatingPassword" placeholder="Choose Movie" name="name" required>
+{#      <input type="text" class="form-control" id="floatingMovie" name="name" required>#}
+     <!-- data list로 검색 가능하게, 바 형태로 나오게 변경 -->
+      <input class="form-control" list="movies" id="floatingMovie"  name="name" required>
+        <datalist id="movies">
+            {% if titles %}
+                {% for i in titles %}
+                    <option> {{ i.title }} </option>
+                {% endfor %}
+            {% endif %}
+        </datalist>
+
       <label for="floatingPassword">Enter Moive </label>
     </div>
 <br>
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-
-
-{#    <p>#}
-{#        <input name ="id" placeholder="아이디" required />#}
-{#    </p>#}
-{#    <p>#}
-{#        <input name="pw" placeholder="비밀번호" type="password" required />#}
-{#    </p>#}
-{#    <p>#}
-{#        <input name ="name" placeholder="좋아하는 영화" type="text" required />#}
-{#    </p>#}
+<button class="w-100 btn btn-lg btn-primary" type="submit" onclick="change_btn()" id="btn"> Sign in </button>
 
 {#    <p>#}
 {#        <input type="submit" value="로그인"/>#}
@@ -79,6 +73,13 @@
     </form>
 </main>
 </body>
-</html>
 <script>
+ function change_btn() {
+      const btn = document.getElementById("btn");
+      const html = '<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Learning...';
+      // or   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      btn.innerHTML = html;
+   }
+
 </script>
+</html>
