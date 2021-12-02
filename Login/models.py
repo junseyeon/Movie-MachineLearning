@@ -9,10 +9,12 @@ class UserInfo(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
     pw = models.CharField(max_length=50, unique=True)
     birth_date = models.DateField(blank=True, null=True)
+    gender = models.CharField(max_length=10, null=True)
     likeGenre = models.TextField()
     likeM = models.TextField()
     hateM = models.TextField()
     country = models.CharField(max_length=50)
+    rate = models.CharField(max_length=20, default='user')
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

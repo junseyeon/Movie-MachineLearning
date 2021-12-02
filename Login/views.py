@@ -20,19 +20,24 @@ class Login(View):
         u_id = request.POST.get("id")
         pw = request.POST.get("pw")
         name = request.POST.get("name")
-        msg = False
+        msg = False      # 계정 유/무 파악
+        root = False    # 관리자 계정인지 파악
 
-        row = Movie.objects.get(title=name)
+        row = Movie.objects.get(title=name)               # 유효성 검사 해줘야함. 404---
         nameid = row.show_id
 
         infos = UserInfo.objects.all()
         for info in infos:
             if info.id == u_id and info.pw == pw:
                 msg = True
+                if info.rate == 'mgr' or info.rate =='owr':
+                    root = True
             else:
                 print('로그인 정보 없음')         # 나중에 alert_message 추가
 
-        if msg:
+        if root:
+            return HttpResponseRedirect(reverse('main:manager'))
+        elif msg:
             return HttpResponseRedirect(reverse('main:result', args=(u_id, nameid, )))
         else:
             print("로그인 정보 없음...2 ")

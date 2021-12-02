@@ -83,7 +83,12 @@ import matplotlib.pyplot as plt
 
 
 def manager(request):
-# Plot된 그래프를 그림으로 저장 -> 저장된 그림을 웹에 띄움
+    # Plot된 그래프를 그림으로 저장 -> 저장된 그림을 웹에 띄움
+    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # BASE_DIR = os.path.abspath(__file__)
+    path = './main/static/plot_png/'
+    i = 1
+
     def count_plot(df, col):      # type / Movie or TV Show 비율 그래프
         sns.set_style("darkgrid")
         plt.figure(figsize=(12, 7))
@@ -94,7 +99,8 @@ def manager(request):
         plt.xlabel("Type")
         plt.title(f"Number of {col}", fontweight='bold', fontsize=15)
 
-        plt.savefig('plot_png/count_plot')
+        plt.savefig(path + 'count_plot'+ str(i) +'.png', dpi=300)
+
 
     def country_plot():
         sns.set_style('darkgrid')
@@ -104,18 +110,19 @@ def manager(request):
                       order=df['country'].value_counts().index[0:10],
                       palette="Set1")
         plt.xlabel("Numberf of movie")
-        plt.title("Number of movie each countryr", fontweight='bold', fontsize=15)
-        plt.savefig('plot_png/country_plot')
+        plt.title("Number of movie each country", fontweight='bold', fontsize=15)
+        plt.savefig(path + 'country_plot.png', dpi=300)
 
     def dist_plot(df, col):
-        plt.figure(figsize = (12, 8))
+        plt.figure(figsize=(12, 8))
         sns.distplot(df[col], color = "b")
-        plt.title(f"Distribution of  {col} ", fontweight = 'bold', fontsize = 15)
-        plt.savefig('plot_png/dist_plot')
+        plt.title(f"Distribution of  {col} ", fontweight='bold', fontsize = 15)
+        plt.savefig(path + 'dist_plot.png', dpi=150)
 
     item = Movie.objects.all().values()
     df = pd.DataFrame(item)
     count_plot(df, "type")
+    i = i+1
     count_plot(df, "rating")
     country_plot()
     dist_plot(df, "release_year")

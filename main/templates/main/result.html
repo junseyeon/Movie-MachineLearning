@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    {#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">#}
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>#}
+    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>#}
+    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>#}
     <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <title>사용자 맞춤 영화 추천</title>
 </head>
@@ -24,7 +27,7 @@
 
 {# <div class=".container-fluid"> <br><br>#}
 <h2 class="text-center">
-    <mark>{{ u_id }}. Recommend Movie TOP10</mark>
+    <br> <mark>{{ u_id }}'s Recommend Movie TOP10</mark>
 </h2>
 <br><br>
 {#  <table class="table table-hover">  <!--table-bordered or table-striped 고민 --> <!-- https://getbootstrap.com/docs/4.0/content/tables/ 참고 -->#}
@@ -68,14 +71,22 @@
         {% for i in recommended %}
             <div class="col">
                 <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
+                    <div class="card-header">
+
+                        <h5 class="card-title"> {{ i.title }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{ i.type }} | {{ i.duration }}</h6>
+                    </div>
+                    <div class="card-body">
+
                         <p class="card-text">{{ i.description }}</p>
                         <p class="card-text"><small class="text-muted">{{ i.country }}, {{ i.release_year }}</small></p>
-                        <button type="button" class="btn btn-sm btn-outline-info rounded-pill" id="btn_toggle "> 자세히 보기</button>
-                        <div id="Toggle" style="display: none"> 감독 : {{ i.director }} <br> 등장인물 : <br> {{ i.cast }} <br>
-                            장르 : <br> {{ i.listed_in }} <br> 등급 : {{ i.rating }}</div>
+
+                        <details>
+                            <summary> Information</summary>
+                            Genre : {{ i.listed_in }} / Rating: {{ i.rating }} <br>
+                            Director : {{ i.director }} <br>
+                            Cast: {{ i.cast }} <br>
+                        </details>
 
                         <!-- 시간 되면 좋아한다고 선택한 것 db에 넣고 (db에 넣을 때 이미 있는 건지 확인 후) 이 페이지 실행 할 때 반영하기 -->
                         {#        <button type="button" class="btn btn-primary btn-sm"> LIKE </button>#}
@@ -87,11 +98,11 @@
     {% endif %}
 </div>
 </body>
-<script>
-    $(function () {
-        $("#btn_toggle").click(function () {
-            $("#Toggle").toggle();
-        });
-    });
-</script>
+{#<script>#}
+{#    $(function () {#}
+{#        $("#btn_toggle").click(function () {#}
+{#            $("#Toggle").toggle();#}
+{#        });#}
+{#    });#}
+{#</script>#}
 </html>
