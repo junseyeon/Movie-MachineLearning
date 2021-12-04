@@ -6,7 +6,9 @@ from main.models import Movie
 from django.urls import reverse
 from datetime import datetime
 
+
 class Login(View):
+
     def get(self, request):
 
         # db에 있는 title값 만 가져오기
@@ -23,24 +25,33 @@ class Login(View):
         msg = False      # 계정 유/무 파악
         root = False    # 관리자 계정인지 파악
 
-        row = Movie.objects.get(title=name)               # 유효성 검사 해줘야함. 404---
-        nameid = row.show_id
+        try:     # 비회원 영화 추천
+            row = Movie.objects.get(title=name)
+            nameid = row.show_id
+        except Movie.DoesNotExist:
+            print("영화 안골랐음")
 
         infos = UserInfo.objects.all()
         for info in infos:
+            print(info)
             if info.id == u_id and info.pw == pw:
                 msg = True
-                if info.rate == 'mgr' or info.rate =='owr':
+                if info.rate == 'mgr' or info.rate =='own':
                     root = True
+                break
             else:
                 print('로그인 정보 없음')         # 나중에 alert_message 추가
 
-        if root:
+        if root and msg:
             return HttpResponseRedirect(reverse('main:manager'))
-        elif msg:
-            return HttpResponseRedirect(reverse('main:result', args=(u_id, nameid, )))
-        else:
-            print("로그인 정보 없음...2 ")
+        if msg:
+            print("로그인 했을 때 취향 분석")
+            return HttpResponseRedirect(reverse('main:using', args=(u_id, )))         # 로그인
+        if nameid:
+            print("비회원 영화 추천해줌")
+            return HttpResponseRedirect(reverse('main:result', args=(nameid, )))       # 비회원 영화 추천
+            
+
 
         # context = {
         #     'id': id,

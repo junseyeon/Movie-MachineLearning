@@ -27,7 +27,13 @@
 
 {# <div class=".container-fluid"> <br><br>#}
 <h2 class="text-center">
-    <br> <mark>{{ u_id }}'s Recommend Movie TOP10</mark>
+    <br>
+    {% if u_id %}
+        <mark>{{ u_id }}'s Recommend Movie TOP10</mark>
+     {% else %}
+        <mark> Recommend Movie TOP10</mark>
+    {% endif %}
+
 </h2>
 <br><br>
 {#  <table class="table table-hover">  <!--table-bordered or table-striped 고민 --> <!-- https://getbootstrap.com/docs/4.0/content/tables/ 참고 -->#}

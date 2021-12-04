@@ -14,8 +14,13 @@ class UserInfo(models.Model):
     likeM = models.TextField()
     hateM = models.TextField()
     country = models.CharField(max_length=50)
-    rate = models.CharField(max_length=20, default='user')
+    rate = models.CharField(max_length=20, default='user')      # 사용자 관리자 구분
     created_date = models.DateTimeField(default=timezone.now)
+    # 취향 분석을 위해 추가함
+    rating = models.CharField(max_length=50, null=True)
+    listed_in = models.CharField(max_length=200, null=True)      # 좋아하는 장르
+    director = models.CharField(max_length=200, null=True, default='N')
+    cast = models.CharField(max_length=300, null=True)
 
     def __str__(self):
         return 'id:' + self.id + ' pw:' + self.pw

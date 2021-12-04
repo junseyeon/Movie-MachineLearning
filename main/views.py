@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from Login.models import UserInfo
 
 import csv
 import pandas as pd
@@ -19,8 +20,8 @@ from sklearn.metrics.pairwise import linear_kernel
 import json
 
 
-def result(request, u_id, nameid):
-     # print("넘어온 : " + u_id + " " + nameid)  # ISSUE: 띄어쓰기 값은 에러
+def result(request, nameid):
+    print("result로 들어옴")
 
     item = Movie.objects.all().values()
     df = pd.DataFrame(item)
@@ -66,16 +67,82 @@ def result(request, u_id, nameid):
     json_recommended = df_Recommended.reset_index().to_json(orient='records')
     data = []
     data = json.loads(json_recommended)
-    context = {'recommended': data,
-               'u_id': u_id}
+    context = {'recommended': data}
 
     return render(request, 'main/result.html', context=context)
     # return HttpResponse("완료")
 
 
+def using(request, u_id):
+    print("using 들어옴")
+    row = UserInfo.objects.get(id=u_id)  # 받아온 id값으로 사용자 정보 찾기
+    rating = row.rating
+    listed_in = row.listed_in
+    director = row.director
+    cast = row.cast
 
-def result_using(request):
-    return HttpResponse("응용 버전")
+    myFavorite = {
+        'rating': rating,
+        'listed_in': listed_in,
+        'director': director,
+        'cast': cast
+    }
+
+    item = Movie.objects.all().values()
+    df = pd.DataFrame(item)
+
+    def Recommand_Movie_with_Filter(filterList, favoriteList, df=df):
+        cols = ['show_id', 'title', 'type', 'country', 'rating', 'listed_in', 'description']
+
+        df_Filtered = df[[col for col in cols if (col not in filterList)]]
+
+        favoriteDict = dict()
+        for filteredCol in df_Filtered:
+            if filteredCol in favoriteList.keys() and favoriteList[filteredCol] is not None:
+                favoriteDict[filteredCol] = favoriteList[filteredCol]
+            else:
+                favoriteDict[filteredCol] = ''
+        favoriteDict['title'] = '@'
+        favoriteDict['show_id'] = int(df.tail(n=1)['show_id']) + 1
+
+        df_Filtered = df_Filtered.append(favoriteDict, ignore_index=True)
+
+        df_combined = df_Filtered.apply(lambda row: ' / '.join(row.values.astype(str)), axis=1)
+        df_combined = df_combined.apply(lambda string: string[(string.find('/')) + 2:])
+        vectorizer = TfidfVectorizer(stop_words='english')
+        df_vector = vectorizer.fit_transform(df_combined)
+
+        similarity = cosine_similarity(df_vector)
+        similarity_des = linear_kernel(df_vector, df_vector)
+
+        indices = pd.Series(df_Filtered.index, index=df_Filtered['title']).drop_duplicates()
+        idx = indices['@']
+
+        sim_scores = list(enumerate(similarity_des[idx]))
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+        sim_scores = sim_scores[1:11]
+
+        movie_indices = [i[0] for i in sim_scores]
+
+        df_recommand = df.copy()
+        df_recommand = df_recommand.iloc[0:0]
+        for title in list(df['title'].iloc[movie_indices]):
+            df_recommand = df_recommand.append(df[df["title"] == title], ignore_index=True)
+        df_recommand['similarRate'] = list(map(lambda tp: tp[1], sim_scores))
+
+        return df_recommand
+
+    pd.set_option('max_rows', 10, 'display.max_colwidth', 1000)
+    recommendedMovies = Recommand_Movie_with_Filter([], myFavorite)
+
+    json_recommended = recommendedMovies.reset_index().to_json(orient='records')
+    data = []
+    data = json.loads(json_recommended)
+    context = {'recommended': data,
+               'u_id' : u_id}
+
+    return render(request, 'main/result.html', context=context)
+    # return HttpResponse("응용 버전")
 
 
 import seaborn as sns

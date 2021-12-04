@@ -36,18 +36,18 @@
      <h1 class="h3 mb-3 fw-normal">이거 어때? 아님 말고. </h1>
 
     <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" name="id" required>
+      <input type="text" class="form-control" id="floatingInput" name="id" >
       <label for="floatingInput">Enter ID</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" name="pw" required>
+      <input type="password" class="form-control" id="floatingPassword" name="pw" >
       <label for="floatingPassword">Enter Password</label>
     </div>
 
      <div class="form-floating">
 {#      <input type="text" class="form-control" id="floatingMovie" name="name" required>#}
      <!-- data list로 검색 가능하게, 바 형태로 나오게 변경 -->
-      <input class="form-control" list="movies" id="floatingMovie"  name="name" required>
+      <input class="form-control" list="movies" id="floatingMovie"  name="name" >
         <datalist id="movies">
             {% if titles %}
                 {% for i in titles %}
