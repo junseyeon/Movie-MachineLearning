@@ -150,6 +150,7 @@ import matplotlib.pyplot as plt
 
 
 def manager(request):
+    print("관리자------")
     # Plot된 그래프를 그림으로 저장 -> 저장된 그림을 웹에 띄움
     # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     # BASE_DIR = os.path.abspath(__file__)

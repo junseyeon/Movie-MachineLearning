@@ -15,7 +15,7 @@ urlpatterns = [
 
      # path('', views.result, name="result"),
 
-     path('manager/', views.manager, name="manager"),
+     path('only/manager/', views.manager, name="manager"),
 
      path('csv/', views.csvToModel, name="csv"),
 

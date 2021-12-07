@@ -33,7 +33,6 @@ class Login(View):
 
         infos = UserInfo.objects.all()
         for info in infos:
-            print(info)
             if info.id == u_id and info.pw == pw:
                 msg = True
                 if info.rate == 'mgr' or info.rate =='own':
@@ -42,12 +41,13 @@ class Login(View):
             else:
                 print('로그인 정보 없음')         # 나중에 alert_message 추가
 
-        if root and msg:
+        if root:
+            print('adsfdf')
             return HttpResponseRedirect(reverse('main:manager'))
-        if msg:
+        elif msg:
             print("로그인 했을 때 취향 분석")
             return HttpResponseRedirect(reverse('main:using', args=(u_id, )))         # 로그인
-        if nameid:
+        elif nameid:
             print("비회원 영화 추천해줌")
             return HttpResponseRedirect(reverse('main:result', args=(nameid, )))       # 비회원 영화 추천
             
